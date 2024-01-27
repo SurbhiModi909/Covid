@@ -110,3 +110,36 @@ WHERE dea.continent is not null
 
 SELECT *
 FROM PercentPopulationVaccinated
+
+--QUERIES USED FOR TABLEAU
+
+--Table 1 - Total Cases, Deaths and Death Percentage around the World
+
+CREATE VIEW Table1_TotalAroundTheWorld AS
+SELECT SUM(new_cases) as total_cases, SUM(CAST(new_deaths as INT)) as total_deaths, SUM(CAST(new_deaths as INT))/SUM(New_Cases)*100 as DeathPercentage
+FROM [Project ]..CovidDeaths
+WHERE continent is not null 
+
+--Table 2 -Continent Wise Total Death Count
+
+CREATE VIEW Table2_ContinentWiseTotalDeathCount AS
+SELECT location, SUM(CAST(new_deaths as INT)) as TotalDeathCount
+FROM [Project ]..CovidDeaths
+WHERE continent is NULL
+AND location not in ('World', 'European Union', 'International')
+GROUP BY location 
+
+--Table 3 - Highest Infection Count
+
+CREATE VIEW Table3_HighestInfectionCount AS
+SELECT Location, Population, MAX(total_cases) as HighestInfectionCount,  Max((total_cases/population))*100 as PercentPopulationInfected 
+FROM [Project ]..CovidDeaths
+GROUP BY location, population
+
+--Table 4 Datewise Highest Infection Count
+
+CREATE VIEW Table4_DatewiseHighestInfectionCount AS
+SELECT Location, Population, Date, MAX(total_cases) as HighestInfectionCount,  Max((total_cases/population))*100 as PercentPopulationInfected 
+FROM [Project ]..CovidDeaths
+GROUP BY location, population, date
+
