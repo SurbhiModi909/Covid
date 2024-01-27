@@ -143,3 +143,5 @@ SELECT Location, Population, Date, MAX(total_cases) as HighestInfectionCount,  M
 FROM [Project ]..CovidDeaths
 GROUP BY location, population, date
 
+--Tableau Dashboard Link
+https://public.tableau.com/app/profile/surbhi.modi8337/viz/CovidDashboard_17063149353950/Dashboard1?publish=yes
